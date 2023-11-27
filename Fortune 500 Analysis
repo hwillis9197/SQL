@@ -65,7 +65,7 @@ SELECT company_name, MIN(revenue) FROM fortune_companies;
 SELECT industry, ROUND(AVG(revenue),1) AS AverageRevenue
 FROM fortune_companies
 GROUP BY industry
-ORDER BY AverageRevenue;
+ORDER BY AverageRevenue DESC;
 
 #Show the companies that dont provide healthcare benefits.
 SELECT company_name
