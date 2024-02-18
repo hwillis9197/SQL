@@ -1,4 +1,5 @@
-#In this SQL project, I'm querying a database with multiple tables in it to quantify statistics about customer and oder data using SQLite.
+#In this SQL project, I'm querying a database with multiple tables in it to quantify statistics 
+about customer and order data using RDBMS SQLite Studio.
 
 #1 How many orders were placed in January?
 SELECT COUNT(orderID) 
