@@ -1,6 +1,7 @@
-# For this project I downloaded Spotify data from Kaggle, 
-# then created a table to insert the data into,
-# and finally, I preformed an analysis on the data. 
+/* For this project I downloaded Spotify data from Kaggle, 
+then created a table to insert the data into SQLiteStudio,
+and finally, I preformed an analysis on the data. The purpose of 
+this project is meant to practice ETL, statistical concepts, and query writing. */
 
 CREATE TABLE BIT_DB.Spotifydata (
 id integer PRIMARY KEY,
@@ -22,31 +23,31 @@ tempo decimal(6,3) NOT NULL,
 duration_ms integer NOT NULL,
 time_signature integer NOT NULL )
 
-# Then I inserted the Spotify Data .csv into the table.
+-- Then I inserted the Spotify Data .csv into the table.
 
-# Next, I explored the data using the following SQL.
+-- Next, I explored the data using the following mySQL statements.
 
-# What is the average danceability by artist and track?;
+-- What is the average danceability by artist and track?;
 SELECT artist_name AS Artist, ROUND(AVG(danceability), 4) FROM Spotifydata GROUP BY artist_name;
 SELECT track_name, ROUND(AVG(danceability), 4) FROM Spotifydata GROUP BY track_name;
 
-# What are the top 15 artists by popularity?;
+-- What are the top 15 artists by popularity?;
 SELECT artist_name, popularity FROM Spotifydata GROUP BY artist_name ORDER BY popularity DESC LIMIT 15;
 
-# What artist released the longest song?;
+-- What artist released the longest song?;
 SELECT artist_name, track_name FROM Spotifydata GROUP BY track_name ORDER BY duration_ms LIMIT 1;
 
-# What is the average dancability for the 10 most popular songs?;
+-- What is the average dancability for the 10 most popular songs?;
 SELECT AVG(danceability) AS AverageDanceability FROM Spotifydata ORDER BY popularity DESC LIMIT 10;
 
-# Provide the statistic for the top 10 songs with the most energy.;
+-- Provide the statistic for the top 10 songs with the most energy.;
 SELECT track_name, artist_name FROM Spotifydata GROUP BY track_name ORDER BY energy DESC LIMIT 10;
 
-# What is the slowest song by danceability and energy?;
+-- What is the slowest song by danceability and energy?;
 SELECT track_name FROM Spotifydata WHERE energy <= 0.50 AND danceability <= 0.4 GROUP BY track_name;
 
-# What is the least favored song?;
+-- What is the least favored song?;
 SELECT track_name, MIN(popularity) FROM Spotifydata;
 
-# Who has created the most songs in the dataset?;
+-- Who has created the most songs in the dataset?;
 SELECT artist_name, COUNT(artist_name) AS songs FROM Spotifydata GROUP BY artist_name ORDER BY songs DESC LIMIT 1;
