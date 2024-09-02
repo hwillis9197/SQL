@@ -1,3 +1,6 @@
+/* This project presents a group of basic SQL statements that query the superstore database shown 
+below. These queries showcase aggregation functions, comparison operators, and logical operators. */
+
 CREATE TABLE superstore (
     item_id INTEGER PRIMARY KEY,
     item_name TEXT,
