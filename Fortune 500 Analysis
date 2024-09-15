@@ -1,3 +1,8 @@
+/* Welcome my my Fortune 500 Analysis project. The purpose of this project is to provide a statistical business
+analysis of the top fortune 500 companies using aggregation functions, logical operators, comparison operators, 
+and a case statement to organize and display data.
+Below, I have listed the table and table values in this database for your reference, then my queries are listed. */
+
 CREATE TABLE fortune_companies (
     company_id INTEGER PRIMARY KEY,
     company_name TEXT,
@@ -7,7 +12,8 @@ CREATE TABLE fortune_companies (
     healthcare_benefits BIT,
     paid_time_off_days INTEGER,
     maternity_leave_weeks INTEGER,
-    avg_employee_tenure REAL);
+    avg_employee_tenure REAL)
+;
 
 INSERT INTO fortune_companies (company_name, industry, revenue, employees, healthcare_benefits, paid_time_off_days, maternity_leave_weeks, avg_employee_tenure)
 VALUES
@@ -53,48 +59,78 @@ VALUES
     ('Company HH', 'Energy', 280.2, 2300, 1, 16, 9, 6.8),
     ('Company II', 'Telecommunications', 110.5, 2000, 1, 21, 12, 4.9),
     ('Company JJ', 'Manufacturing', 370.0, 3100, 1, 20, 12, 7.6),
-    ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
+    ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3)
+;
 
-SELECT * FROM fortune_companies;
+-- Exploratory select statement. 
+SELECT * 
+FROM fortune_companies
+LIMIT 5
+;
 
-#Show the company with the most and the least revenue.
-SELECT company_name, MAX(revenue) FROM fortune_companies;
-SELECT company_name, MIN(revenue) FROM fortune_companies;
+-- Show the company with the most and the least revenue.
+SELECT company_name, MAX(revenue) 
+FROM fortune_companies
+;
+SELECT company_name, MIN(revenue) 
+FROM fortune_companies
+;
 
-#Show the industry that averages the most revenue.
+-- Show the industry that averages the most revenue.
 SELECT industry, ROUND(AVG(revenue),1) AS AverageRevenue
 FROM fortune_companies
 GROUP BY industry
-ORDER BY AverageRevenue DESC;
+ORDER BY AverageRevenue DESC
+;
 
-#Show the companies that dont provide healthcare benefits.
+-- Show the companies that dont provide healthcare benefits.
 SELECT company_name
 FROM fortune_companies
-WHERE healthcare_benefits = 0;
+WHERE healthcare_benefits = 0
+;
 
-#Show the companies with the most, average, and the least paid time off.
-SELECT company_name, MAX(paid_time_off_days) FROM fortune_companies;
-SELECT ROUND(AVG(paid_time_off_days),1) AS AveragePaidTimeOff FROM fortune_companies;
-SELECT company_name, MIN(paid_time_off_days) FROM fortune_companies;
+-- Show the companies with the most, average, and the least paid time off.
+SELECT company_name, MAX(paid_time_off_days) 
+FROM fortune_companies
+;
+SELECT ROUND(AVG(paid_time_off_days),1) AS AveragePaidTimeOff 
+FROM fortune_companies
+;
+SELECT company_name, MIN(paid_time_off_days) 
+FROM fortune_companies
+;
 
-#Show the companies with the most, average, and the least maturnity leave.
-SELECT company_name, MAX(maternity_leave_weeks) FROM fortune_companies;
-SELECT ROUND(AVG(maternity_leave_weeks),1) AS AverageMaturnityLeave FROM fortune_companies;
-SELECT company_name, MIN(maternity_leave_weeks) FROM fortune_companies;
+-- Show the companies with the most, average, and the least maturnity leave.
+SELECT company_name, MAX(maternity_leave_weeks) 
+FROM fortune_companies
+;
+SELECT ROUND(AVG(maternity_leave_weeks),1) AS AverageMaturnityLeave 
+FROM fortune_companies
+;
+SELECT company_name, MIN(maternity_leave_weeks) 
+FROM fortune_companies
+;
 
-#Show statistics for companies with the best healthcare, paid time off, and maternity leave.
+-- Show statistics for companies with the best healthcare, paid time off, and maternity leave.
 SELECT company_name, healthcare_benefits, paid_time_off_days, maternity_leave_weeks
 FROM fortune_companies
 WHERE healthcare_benefits = 1 AND paid_time_off_days >19 AND maternity_leave_weeks >11
-ORDER BY paid_time_off_days;
+ORDER BY paid_time_off_days
+;
 
-#Show the companies with the most, average, and the least employees.
-SELECT company_name, MAX(employees) FROM fortune_companies;
-SELECT ROUND(AVG(employees),1) FROM fortune_companies;
-SELECT company_name, MIN(employees) FROM fortune_companies;
+-- Show the companies with the most, average, and the least employees.
+SELECT company_name, MAX(employees) 
+FROM fortune_companies
+;
+SELECT ROUND(AVG(employees),1) 
+FROM fortune_companies
+;
+SELECT company_name, MIN(employees) 
+FROM fortune_companies
+;
 
-#Organize statistics for largest to smallest companies by employee number.
-SELECT company_name,
+-- Organize statistics for largest to smallest companies by employee number.
+SELECT company_name, employees
 CASE WHEN employees >=100000 THEN "largest employer"
 WHEN employees >= 50000 THEN "average employer"
 WHEN employees >= 25000 THEN "smaller employer"
@@ -102,4 +138,5 @@ ELSE "smallest employer"
 END AS employer_size
 FROM fortune_companies
 GROUP BY company_name
-ORDER BY employer_size;
+ORDER BY employer_size
+;
