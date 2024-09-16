@@ -80,20 +80,33 @@ SELECT max(durability) FROM marvels;
 SELECT max(energy_Projection) FROM marvels;
 SELECT max(fighting_skills) FROM marvels;
 
+/* The two statments below can be written using a WHERE clause but 
+the statement also works using the HAVING clause as well. While these 
+statements would most likely be written with a WHERE clause because there 
+is no need for the HAVING clause in this case, I still kept them to 
+practice with during the project. The distinct difference between the two 
+clauses is that a HAVING clause can hold aggregate functions like SUM, MIN, 
+etc., while a WHERE clause cannot. */
 -- Show statistics for marvel characters with higher inteligence.
-SELECT name FROM marvels GROUP BY intelligence HAVING intelligence > 5;
+SELECT name 
+FROM marvels 
+GROUP BY intelligence 
+HAVING intelligence > 5
+;
 
 -- Show statistics for marvel characters with the highest popularity.
 SELECT name 
 FROM marvels 
 GROUP BY popularity 
-HAVING popularity >80;
+HAVING popularity >80
+;
 
 -- Show all female marvel charachters. 
 SELECT name 
 FROM marvels 
 GROUP BY gender 
-HAVING gender = "female"; 
+HAVING gender = "female"
+; 
 
 -- Create a SELECT statement that ranks the speed value.
 SELECT
