@@ -1,3 +1,9 @@
+/* Welcome to my basic data dig project. This project was one of the first I
+completed while I taught myself SQL. The purpose of this poject it to practice 
+basic aggregation functions, exploratory queries, comparison operators within 
+the WHERE clause, and case statement structure. 
+The table and table values are listed below, then query questions and prompts. */
+
 CREATE TABLE marvels (ID INTEGER PRIMARY KEY,
     name TEXT,
     popularity INTEGER,
@@ -39,9 +45,9 @@ INSERT INTO marvels VALUES(23, "Ghost Rider", 86, "Good", "Male", 1.88, 99, "EUA
 INSERT INTO marvels VALUES(24, "Venom", 78, "Neutral", "Male", 1.90, 118, "EUA", 3, 4, 2, 6, 1, 4);
 INSERT INTO marvels VALUES(25, "Juggernaut", 76, "Neutral", "Male", 2.87, 862, "EUA", 2, 7, 2, 7, 1, 4);
 
-SELECT * FROM marvels;
 
-#Create a SELECT statement to identify averages for the data values.
+
+-- Create a SELECT statement to identify averages for the data values.
 SELECT avg(popularity) FROM marvels;
 SELECT avg(height_m) FROM marvels;
 SELECT avg(weight_kg) FROM marvels;
@@ -52,7 +58,7 @@ SELECT avg(durability) FROM marvels;
 SELECT avg(energy_Projection) FROM marvels;
 SELECT avg(fighting_skills) FROM marvels;
 
-#Create a SELECT statement to identify the minimum for the data values.
+-- Create a SELECT statement to identify the minimum for the data values.
 SELECT min(popularity) FROM marvels;
 SELECT min(height_m) FROM marvels;
 SELECT min(weight_kg) FROM marvels;
@@ -63,7 +69,7 @@ SELECT min(durability) FROM marvels;
 SELECT min(energy_Projection) FROM marvels;
 SELECT min(fighting_skills) FROM marvels;
 
-#Create a SELECT statement to identify the maximum for the data values.
+-- Create a SELECT statement to identify the maximum for the data values.
 SELECT max(popularity) FROM marvels;
 SELECT max(height_m) FROM marvels;
 SELECT max(weight_kg) FROM marvels;
@@ -74,16 +80,22 @@ SELECT max(durability) FROM marvels;
 SELECT max(energy_Projection) FROM marvels;
 SELECT max(fighting_skills) FROM marvels;
 
-#Show statistics for marvel characters with higher inteligence.
+-- Show statistics for marvel characters with higher inteligence.
 SELECT name FROM marvels GROUP BY intelligence HAVING intelligence > 5;
 
-#Show statistics for marvel characters with the highest popularity.
-SELECT name FROM marvels GROUP BY popularity HAVING popularity >80;
+-- Show statistics for marvel characters with the highest popularity.
+SELECT name 
+FROM marvels 
+GROUP BY popularity 
+HAVING popularity >80;
 
-#Show all female marvel charachters. 
-SELECT name FROM marvels GROUP BY gender HAVING gender = "female"; 
+-- Show all female marvel charachters. 
+SELECT name 
+FROM marvels 
+GROUP BY gender 
+HAVING gender = "female"; 
 
-#Create a SELECT statement that ranks the speed value.
+-- Create a SELECT statement that ranks the speed value.
 SELECT
     CASE
     WHEN speed = 7 THEN "lightning_fast"
@@ -94,16 +106,30 @@ SELECT
     WHEN speed = 2 THEN "slower"
     WHEN speed = 1 THEN "slowest"
     END AS speed_rankings
-FROM marvels;
+FROM marvels
+;
 
-#Show statistics for taller and more durable marvel characters.
-SELECT * FROM marvels WHERE height_m >2.0 AND durability >4;
+-- Show statistics for taller and more durable marvel characters.
+SELECT * 
+FROM marvels 
+WHERE height_m >2.0 AND durability >4
+;
 
-#Show statistics for unpopular female characters.
-SELECT * FROM marvels WHERE gender = "female" AND popularity < 15;
+-- Show statistics for unpopular female characters.
+SELECT * 
+FROM marvels 
+WHERE gender = "female" AND popularity < 15
+;
 
-#Show statistics for strong and fast characters.
-SELECT * FROM marvels WHERE strength >6 OR speed > 6;
+-- Show statistics for strong and fast characters.
+SELECT * 
+FROM marvels 
+WHERE strength >6 OR speed > 6
+;
 
-#Show all characters considered evil. 
-SELECT * FROM marvels WHERE alignment = "bad";
+-- Show all characters considered evil. 
+SELECT * 
+FROM marvels 
+WHERE alignment = "bad"
+;
+
