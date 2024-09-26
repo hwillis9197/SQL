@@ -4,6 +4,8 @@
 and data aggregation functions to provide statistical answers. The goal of this project is to practice creating meaningful 
 queries, basic postgreSQL statement skills, and JOIN order. */ 
 
+-- This project utilized data from the following Netflix dataset:
+
 CREATE TABLE netflix_titles_info
     ("show_id" varchar(5), "type" varchar(7), "title" varchar(58), "country" varchar(74), "date_added" timestamp, "release_year" int, 
 "rating" varchar(5), "duration" varchar(9), "listed_in" varchar(74))
