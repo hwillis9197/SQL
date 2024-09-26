@@ -1,6 +1,6 @@
 /* Welcome my my Fortune 500 Analysis project. The purpose of this project is to provide a statistical business
 analysis of the top fortune 500 companies using aggregation functions, logical operators, comparison operators, 
-and a case statement to organize and display data.
+and case statements to organize and display data.
 Below, I have listed the table and table values in this database for your reference, then my queries are listed. */
 
 CREATE TABLE fortune_companies (
