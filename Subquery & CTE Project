@@ -1,6 +1,6 @@
 /* Welcome to my Subquery & CTEs project. While completing practice questions on various datasets, I authored 
 a question that utilized a CTE or Common Table Expression to answer it. When answering, I contemplated when it
-is best to use a subquery, a CTE, a JOIN, or even a simple SELECT statement. That is the provocation that sparked this project! 
+is best to use a subquery, a CTE, or even a simple SELECT statement. That is the provocation that sparked this project! 
 I will be sharing some of the logic behind my choices to answer queries with a subquery vs. a CTE and so on. */   
 
 -- Telecommunications Company Database
@@ -39,11 +39,10 @@ FROM products
 
 -- Query Prompt/Question: Write a query that will select the customer IDs for all the customers who are subscribed to High-Speed Internet.
 
-/* This request for all customer IDs subscribed to high-speed internet can be completed with a simple query if one knows the 
-product_id for High-Speed Internet, however, in a large dataset over multiple tables, it is more efficient to pull the product_id 
-within the query so that information does not have to be identified beforehand. It is possible to write a JOIN that combines the 
-two tables, then another query to indentify the correct customer_ids, but that's not efficient either due to extra strings of code 
-needed to establish the JOIN. The most efficient way to answer this request is to use a subquery written below. */
+/* This request for all customer IDs subscribed to high-speed internet can be completed with a simple query if the 
+product_id for High-Speed Internet is known, however, in a large dataset over multiple tables, it is more efficient 
+to pull the identifier within the query so it does not need to be determined beforehand. The most efficient way to 
+answer this request is to use a subquery written below. */
 
 SELECT customer_id
 FROM customer_subscriptions
@@ -56,9 +55,11 @@ WHERE product_id IN (
 -- Query Prompt/Question: Write a query that will select the email addresses of all the customers who are subscribed to products 
 with the "Internet" product type. 
 
-/* This request for emails is similar to the last query above in regards to how it would be most efficient to utilize a subquery due 
-to an absence of a product_id correlated to the product_type. Additionally, if the database had two or more tables, then a JOIN would 
-be applied.*/
+/* Explanation: This request for emails is similar to the last query in that it also benefits from utilizing a subquery for 
+efficiency. Given the absence of a direct product_ids correlated to the product_type in the customer_subscriptions table, a 
+subquery allows us to retrieve the relevant product_ids for "Internet" products without prior knowledge of their identifiers. 
+The subquery method not only enhances clarity of the code but also reduces the risk of errors that could come from manually 
+identifying product_ids, especially in larger datasets. */
 
 SELECT email
 FROM customer_subscriptions
