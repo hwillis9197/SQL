@@ -29,24 +29,21 @@ SELECT *
 FROM customer_subscriptions
 LIMIT 5
 ;
-/* In the two queries above, I am selecting all products and customer_subscription table data to note the different columns. 
-products comlum names: product_id	product_name	product_type	speed_mbps	data_limit_gb	monthly_price. customer_subscriptions 
-column names: customer_id	product_id	price	email */
+/* In the two queries above, all data in the products and customer_subscriptions tables were selected to note the different columns. */
 
 SELECT DISTINCT product_type
 FROM products 
 ;
--- Using the query above, I am selecting all the internet product types so I know the different options. 
-product_types: Internet, Cell Phone Service, TV Package
+-- Using the query above, all internet product types were selected to note the different categories. 
 
 
--- Write a query that will select the customer IDs for all the customers who are subscribed to High-Speed Internet.
+-- Query Prompt/Question: Write a query that will select the customer IDs for all the customers who are subscribed to High-Speed Internet.
 
-/* You can answer this request with a simple query if one knows the product_id for High-Speed Internet, however, in a 
-large dataset over multiple tables, it is easier to pull the product_id within the query so one does not have to search 
-for the correct product_id before hand. We can do this with a JOIN to combine the two tables and query to find the correct 
-customer_ids, but that's not efficient either due to extra strings of code needed to establish the JOIN. The most efficient 
-way to answer this request is to use a subquery displayed below. */
+/* This request for all customer IDs subscribed to high-speed internet can be completed with a simple query if one knows the 
+product_id for High-Speed Internet, however, in a large dataset over multiple tables, it is more efficient to pull the product_id 
+within the query so that information does not have to be identified beforehand. It is possible to write a JOIN that combines the 
+two tables, then another query to indentify the correct customer_ids, but that's not efficient either due to extra strings of code 
+needed to establish the JOIN. The most efficient way to answer this request is to use a subquery written below. */
 
 SELECT customer_id
 FROM customer_subscriptions
@@ -56,11 +53,12 @@ WHERE product_id IN (
      WHERE product_name = 'High-Speed Internet'
  );
 
--- Write a query that will select the email addresses of all the customers who are subscribed to products with the "Internet" product type. 
+-- Query Prompt/Question: Write a query that will select the email addresses of all the customers who are subscribed to products 
+with the "Internet" product type. 
 
-/* This request statement is similar to the one above in that it would be most efficient to use a subquery due to there 
-not being a product_id correlated to the product_type. Also, if I were pulling from more than two tables, then I'd have to 
-use a JOIN but in this case, it is easiest to use a subquery displayed below.*/
+/* This request for emails is similar to the last query above in regards to how it would be most efficient to utilize a subquery due 
+to an absence of a product_id correlated to the product_type. Additionally, if the database had two or more tables, then a JOIN would 
+be applied.*/
 
 SELECT email
 FROM customer_subscriptions
@@ -82,9 +80,12 @@ CREATE TABLE superstore (
     average_rating DECIMAL(3, 2)
 );
 
--- Show item with the highest rating for each category.
+-- Query Prompt/Question: Show item with the highest rating for each category within the superstore database.
 
-/* Below, I ansered this query using a CTE.  **EXPLANATION HERE** */
+/* The prompt is deceptively simple, however, requires supplementary filtering. The CTE, ranked_items, allows for 
+efficient partitioning of data by category, applying the ROW_NUMBER() function to rank items based on their average 
+rating. This approach simplifies the query structure and enhances readability, making it easier to manage complex logic, 
+especially when dealing with multiple aggregations or rankings. */
 
 WITH ranked_items AS 
  (SELECT category, item_name, average_rating, 
