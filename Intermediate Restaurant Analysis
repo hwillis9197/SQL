@@ -1,0 +1,135 @@
+//* Welcome! This restaurant analysis answers data questions using intermediate SQL for a local restaurant and exhibits proficiency in the following 
+skills: JOINs, string manipulation functions, date formatting, and mathmatical calculations.
+Note: using standard SQL(ANSI SQL) for analysis
+
+Database schema:
+Customers Table
+CustomerID int
+FirstName varchar(255)
+LastName varchar(255)
+Email varchar(255)
+Address varchar(255)
+City varchar(255)
+State char(2)
+Phone varchar(255)
+Birthday date 
+FavoriteDish int
+
+Orders
+OrderlD int
+CustomerID int
+OrderDate datetime
+
+OrdersDishes
+OrdersDishesID int
+OrderlD int
+DishID int
+
+Dishes
+DishID int
+Name varchar(50)
+Description varchar(255)
+Price decimal
+Type varchar(50)
+
+Employees
+EmployeelD int
+FirstName varchar (255)
+LastName varchar(255)
+Department varchar(255)
+Position varchar(255)
+WeeklyPay int
+Username varchar(255)
+*//
+
+-- 1. Provide a report of customers who have spent more than $450 since the restaurant opening. 
+
+SELECT c.CustomerID, c.FirstName, c.LastName, ROUND(SUM(d.Price),2) AS TotalSpend
+FROM Customers c
+LEFT JOIN Orders o
+ON c.CustomerID = o.CustomerID
+JOIN OrdersDishes od
+ON od.OrderID = o.OrderID 
+LEFT JOIN Dishes d
+ON d.DishID = od.DishID
+GROUP BY c.CustomerID
+HAVING TotalSpend > 450
+ORDER BY TotalSpend DESC
+;
+
+-- 2. Return a list of items in each order since May 1st, 2020, separated by commas and in alphabetical order. 
+//*(Constraints: include data from 2020-05-1 to present, comma separation with no spaces of items in each order sorted alphebetically)*//
+
+SELECT o.OrderID, 
+       STRING_AGG(d.Name, ',' ORDER BY d.Name) AS Events
+FROM Orders o
+JOIN OrdersDishes od ON o.OrderID = od.OrderID
+JOIN Dishes d ON d.DishID = od.DishID
+WHERE o.OrderDate >= '2022-05-01 00:00:00'
+GROUP BY o.OrderID
+;
+
+//* Initially I wanted to use a CTE to help build out the structure of adding the new column with the items but concluded that a 
+CTE wasn't needed. If additional filtering is needed, or reusing computed values multiple times, or the query was more complex, then I'd use a CTE.
+I built out the query with the joins then concatenate the item Names. Due to the dialect of SQL used, I used STRING_AGG instead of CONCAT. *//
+
+-- 3. Return a list of days that "Handcrafted Pizza" was ordered, and how many were ordered on each day. 
+//* Result will be two columns, Day(date format YYYY-mm-dd) and NumSold(number of pizzas sold that day) sorted by day.
+Constraints: omit days Handcrafted pizzas were not ordered*//
+
+SELECT COUNT(d.Name) AS NumSold, 
+    CAST(o.OrderDate AS DATE) AS Day -- Initially used DATE_FORMAT() which is specific to MYSQL. CAST() is correct for ANSI SQL 
+FROM Orders o
+JOIN OrdersDishes od 
+ON o.OrderID = od.OrderID
+JOIN Dishes d 
+ON d.DishID = od.DishID
+WHERE d.Name = 'Handcrafted Pizza'
+GROUP BY CAST(o.OrderDate AS DATE) -- Must match SELECT column exactly since SQL processed SELECT after GROUP BY
+ORDER BY Day ASC
+;
+
+-- 4. Apply seasonal discounts to the menu. 
+
+SELECT Name, Price AS OriginalPrice, 
+    CASE 
+        WHEN Price < 7 THEN '5%'
+        WHEN Price > 10 THEN '15%'
+        ELSE '10%'
+    END AS DiscountPercent, 
+    CASE 
+        WHEN Price < 7 THEN ROUND(Price * 0.95, 2)
+        WHEN Price > 10 THEN ROUND(PRICE * 0.85, 2)
+        ELSE ROUND(Price * 0.90, 2)
+    END AS DiscountedPrice
+FROM Dishes
+Order BY Name
+;
+
+//* Another approach puts the ROUND and Price calculation on the outside of the second CASE, DiscountedPrice, which makes sense to avoid 
+repetativeness when typing out those functions in each WHEN line. You could also include the calculation 1 - CASE instead of 
+putting 0.95, 0.90, and 0.85 like I did so SQL does all the math. Here's what that CASE would look like:
+ROUND( 
+    Price * (
+        1 - CASE 
+            WHEN Price < 7 THEN 0.05
+            WHEN Price > 10 THEN 0.15
+            ELSE 0.10
+    END   )
+,2) DiscountedPrice
+*//
+
+-- 5. Write a query that returns tlhe formatted information for the new vendor. 
+//* Results should include the following information that the vendor requested. 
+  - Provide ID numbers of the employees with 5 integers and leading zeros.
+  - Provide Last, First name.
+  - Provide a login that includes the first initial and up to seven characters of the employee last name.
+  - Provide email that includes the username from Employees table and @nadias-garden.com. *//
+
+SELECT LPAD(EmployeeID, 5, 0) AS ID,
+    CONCAT(LastName, ', ', FirstName) AS Name,
+    LOWER(CONCAT(SUBSTRING(FirstName, 1, 1), SUBSTRING(LastName, 1, 7)))AS Login,
+    CONCAT(Username, '@nadias-garden.com') AS Email
+FROM Employees
+ORDER BY Name
+;  
